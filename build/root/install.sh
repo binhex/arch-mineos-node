@@ -76,12 +76,16 @@ sed -i -e "s~ssl_certificate = '/etc/ssl/certs/mineos.crt'~ssl_certificate = '/c
 # back once copied in install.sh
 cp '/opt/mineos/mineos.conf' '/etc/mineos.conf-backup'
 
+# container perms
+####
+
 # /etc required to allow user 'nobody' to create softlink from
 # /config/mineos/config/mineos.conf to /etc/mineos.conf
 chmod 777 /etc
 
-# container perms
-####
+# mineos needs to run as user 'root', thus we need to add group
+# 'root' to user 'nobody' 
+usermod -a -G root nobody
 
 # define comma separated list of paths 
 install_paths="/opt/mineos,/etc/ssl/certs,/home/nobody"
