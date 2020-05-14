@@ -65,18 +65,26 @@ cd /opt/mineos
 git clone https://github.com/hexparrot/mineos-node.git .
 chmod +x generate-sslcert.sh
 ./generate-sslcert.sh
-cp mineos.conf /etc/mineos.conf
 npm install
 
 # set path to store servers and config
-sed -i -e "s~base_directory = '/var/games/minecraft'~base_directory = '/config/mineos'~g" "/etc/mineos.conf"
-sed -i -e "s~additional_logfiles = ''~additional_logfiles = '/config/mineos/logs'~g" "/etc/mineos.conf"
+sed -i -e "s~base_directory = '/var/games/minecraft'~base_directory = '/config/mineos/games'~g" '/opt/mineos/mineos.conf'
+sed -i -e "s~ssl_private_key = '/etc/ssl/certs/mineos.key'~ssl_private_key = '/config/mineos/certs/mineos.key'~g" '/opt/mineos/mineos.conf'
+sed -i -e "s~ssl_certificate = '/etc/ssl/certs/mineos.crt'~ssl_certificate = '/config/mineos/certs/mineos.crt'~g" '/opt/mineos/mineos.conf'
+
+# copy config to correct location - note '-backup' as we softlink
+# back once copied in install.sh
+cp '/opt/mineos/mineos.conf' '/etc/mineos.conf-backup'
+
+# /etc required to allow user 'nobody' to create softlink from
+# /config/mineos/config/mineos.conf to /etc/mineos.conf
+chmod 777 /etc
 
 # container perms
 ####
 
 # define comma separated list of paths 
-install_paths="/home/nobody"
+install_paths="/opt/mineos,/etc/ssl/certs,/home/nobody"
 
 # split comma separated string into list for install paths
 IFS=',' read -ra install_paths_list <<< "${install_paths}"
@@ -139,6 +147,9 @@ else
 	echo "[info] WEBUI_PASSWORD not defined,(via -e WEBUI_PASSWORD), defaulting to 'mineos'" | ts '%Y-%m-%d %H:%M:%.S'
 	export WEBUI_PASSWORD="mineos"
 fi
+
+# set password for user 'nobody' - used to access the mineos web ui
+echo -e "${WEBUI_PASSWORD}\n${WEBUI_PASSWORD}" | passwd nobody
 EOF
 
 # replace env vars placeholder string with contents of file (here doc)
