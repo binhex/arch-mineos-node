@@ -70,6 +70,7 @@ npm install
 
 # set path to store servers and config
 sed -i -e "s~base_directory = '/var/games/minecraft'~base_directory = '/config/mineos'~g" "/etc/mineos.conf"
+sed -i -e "s~additional_logfiles = ''~additional_logfiles = '/config/mineos/logs'~g" "/etc/mineos.conf"
 
 # container perms
 ####

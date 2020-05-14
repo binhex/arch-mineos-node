@@ -17,6 +17,7 @@ GitHub master branch of MineOS-node for Linux.
 docker run -d \
     --net="bridge" \
     --name=<container name> \
+    -p <host port>:8443/tcp \
     -v <path for config files>:/config \
     -v /etc/localtime:/etc/localtime:ro \
     -e UMASK=<umask for created files> \
@@ -32,6 +33,7 @@ Please replace all user variables in the above command defined by <> with the co
 docker run -d \
     --net="bridge" \
     --name=mineos-node \
+    -p 8443:8443/tcp \
     -v /apps/docker/mineos-node:/config \
     -v /etc/localtime:/etc/localtime:ro \
     -e UMASK=000 \
