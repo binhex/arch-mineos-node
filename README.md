@@ -1,30 +1,28 @@
 **Application**
 
-[Minecraft Bedrock Edition](https://www.minecraft.net/en-us/download/server/bedrock)
+[MineOS-node](https://github.com/hexparrot/mineos-node)
 
 **Description**
 
-Minecraft is a sandbox video game created by Swedish game developer Markus Persson and released by Mojang in 2011. The game allows players to build with a variety of different blocks in a 3D procedurally generated world, requiring creativity from players. Other activities in the game include exploration, resource gathering, crafting, and combat. Multiple game modes that change gameplay are available, including—but not limited to—a survival mode, in which players must acquire resources to build the world and maintain health, and a creative mode, where players have unlimited resources to build with.
+MineOS is a server front-end to ease managing Minecraft administrative tasks. This iteration using Node.js aims to enhance previous MineOS scripts (Python-based), by leveraging the event-triggering, asyncronous model of Node.JS and websockets.
+
+This allows the front-end to provide system health, disk and memory usage, and logging in real-time.
 
 **Build notes**
 
-Alpha release of Minecraft Bedrock Edition for Linux.
+GitHub master branch of MineOS-node for Linux.
 
 **Usage**
 ```
 docker run -d \
     --net="bridge" \
     --name=<container name> \
-    -p <host port>:19132/tcp \
-    -p <host port>:19132/udp \
-    -p <host port>:19133/tcp \
-    -p <host port>:19133/udp \
     -v <path for config files>:/config \
     -v /etc/localtime:/etc/localtime:ro \
     -e UMASK=<umask for created files> \
     -e PUID=<uid for user> \
     -e PGID=<gid for user> \
-    binhex/arch-minecraftbedrockserver
+    binhex/arch-mineos-node
 ```
 
 Please replace all user variables in the above command defined by <> with the correct values.
@@ -33,17 +31,13 @@ Please replace all user variables in the above command defined by <> with the co
 ```
 docker run -d \
     --net="bridge" \
-    --name=minecraftbedrockserver \
-    -p 19132:19132/tcp \
-    -p 19132:19132/udp \
-    -p 19132:19133/tcp \
-    -p 19132:19133/udp \
-    -v /apps/docker/minecraftbedrockserver:/config \
+    --name=mineos-node \
+    -v /apps/docker/mineos-node:/config \
     -v /etc/localtime:/etc/localtime:ro \
     -e UMASK=000 \
     -e PUID=0 \
     -e PGID=0 \
-    binhex/arch-minecraftbedrockserver
+    binhex/arch-mineos-node
 ```
 
 **Notes**
