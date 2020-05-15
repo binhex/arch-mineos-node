@@ -19,7 +19,7 @@ docker run -d \
     --name=<container name> \
     -p <host port for mineos web ui>:8443/tcp \
     -p <host port range for minecraft servers>:25565-25570 \
-    -v <path for config files>:/config \
+    -v <host path for config files>:/config \
     -v /etc/localtime:/etc/localtime:ro \
     -e WEBUI_PASSWORD=<password used to authenticate with web ui> \
     -e UMASK=<umask for created files> \
