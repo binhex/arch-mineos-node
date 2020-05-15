@@ -17,16 +17,22 @@ GitHub master branch of MineOS-node for Linux.
 docker run -d \
     --net="bridge" \
     --name=<container name> \
-    -p <host port>:8443/tcp \
+    -p <host port for mineos web ui>:8443/tcp \
+    -p <host port range for minecraft servers>:25565-25570 \
     -v <path for config files>:/config \
     -v /etc/localtime:/etc/localtime:ro \
+    -e WEBUI_PASSWORD=<password used to authenticate with web ui> \
     -e UMASK=<umask for created files> \
-    -e PUID=<uid for user> \
-    -e PGID=<gid for user> \
+    -e PUID=<uid for root> \
+    -e PGID=<gid for root> \
     binhex/arch-mineos-node
 ```
 
 Please replace all user variables in the above command defined by <> with the correct values.
+
+**Access application**
+
+Login to the web ui is via username 'nobody' with password as specifed via env var value for 'WEBUI_PASSWORD'.
 
 **Example**
 ```
@@ -34,8 +40,10 @@ docker run -d \
     --net="bridge" \
     --name=mineos-node \
     -p 8443:8443/tcp \
+    -p 25565-25570:25565-25570 \
     -v /apps/docker/mineos-node:/config \
     -v /etc/localtime:/etc/localtime:ro \
+    -e WEBUI_PASSWORD=mineos \
     -e UMASK=000 \
     -e PUID=0 \
     -e PGID=0 \
@@ -44,11 +52,7 @@ docker run -d \
 
 **Notes**
 
-User ID (PUID) and Group ID (PGID) can be found by issuing the following command for the user you want to run the container as:-
-
-```
-id <username>
-```
+Please note this container **MUST** run as user 'root', group 'root' (PUID=0 PGID=0), otherwise you will be unable to authenticate via the web ui.
 ___
 If you appreciate my work, then please consider buying me a beer  :D
 
