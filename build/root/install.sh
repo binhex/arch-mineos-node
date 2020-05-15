@@ -83,10 +83,6 @@ cp '/opt/mineos/mineos.conf' '/etc/mineos.conf-backup'
 # /config/mineos/config/mineos.conf to /etc/mineos.conf
 chmod 777 /etc
 
-# mineos needs to run as user 'root', thus we need to add group
-# 'root' to user 'nobody' 
-usermod -a -G root nobody
-
 # define comma separated list of paths 
 install_paths="/opt/mineos,/etc/ssl/certs,/home/nobody"
 
