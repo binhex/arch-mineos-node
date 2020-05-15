@@ -21,4 +21,4 @@ ln -fs '/config/mineos/config/mineos.conf' '/etc/mineos.conf'
 
 # run mineos-node in foreground (blocking)
 echo "[info] Starting MineOS-node..."
-cd /opt/mineos && node webui.js
+cd /opt/mineos && /home/nobody/.nvm/versions/node/v8.17.0/bin/node ./webui.js
