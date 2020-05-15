@@ -32,7 +32,7 @@ Please replace all user variables in the above command defined by <> with the co
 
 **Access application**
 
-Login to the web ui is via username 'nobody' with password as specifed via env var value for 'WEBUI_PASSWORD'.
+Login to the web ui is via username 'nobody' with password as specified via env var value for 'WEBUI_PASSWORD'.
 
 **Example**
 ```
