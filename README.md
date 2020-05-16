@@ -8,6 +8,8 @@ MineOS is a server front-end to ease managing Minecraft administrative tasks. Th
 
 This allows the front-end to provide system health, disk and memory usage, and logging in real-time.
 
+The front-end also allows you to create and manage a multitude of Java based servers, including Mojang Java, Spigot, Nukkit, Forge and many other popular minecraft server types. You can create archives and restore points of your world's straight from the web ui, meaning loss of important playtime is minimised.
+
 **Build notes**
 
 GitHub master branch of MineOS-node for Linux.
