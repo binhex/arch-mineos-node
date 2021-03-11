@@ -35,7 +35,7 @@ fi
 ####
 
 # define pacman packages
-pacman_packages="git rdiff-backup screen rsync npm node-gyp base-devel jre8-openjdk-headless"
+pacman_packages="git rdiff-backup screen rsync npm node-gyp base-devel jre11-openjdk-headless"
 
 # install compiled packages using pacman
 if [[ ! -z "${pacman_packages}" ]]; then
@@ -149,7 +149,7 @@ else
 fi
 
 # set password for user 'nobody' - used to access the mineos web ui
-echo -e "${WEBUI_PASSWORD}\n${WEBUI_PASSWORD}" | passwd nobody
+echo -e "${WEBUI_PASSWORD}\n${WEBUI_PASSWORD}" | passwd nobody 1>&- 2>&-
 EOF
 
 # replace env vars placeholder string with contents of file (here doc)
