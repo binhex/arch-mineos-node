@@ -84,7 +84,7 @@ cp '/opt/mineos/mineos.conf' '/etc/mineos.conf-backup'
 chmod 777 /etc
 
 # define comma separated list of paths 
-install_paths="/opt/mineos,/etc/ssl/certs,/home/nobody"
+install_paths="/opt/mineos,/usr/lib/jvm,/usr/share/java,/etc/ssl/certs,/home/nobody"
 
 # split comma separated string into list for install paths
 IFS=',' read -ra install_paths_list <<< "${install_paths}"
