@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# set file access control list so subsequent created directories allow read and write by 'other' users
+# required as this container must run as user 'root' group 'root'
+setfacl -R -d -m o::rwx /config
+
 # create path to store created minecraft servers and configs,
 # which is referenced in /etc/mineos.conf.
 mkdir -p /config/mineos/logs /config/mineos/certs /config/mineos/config
@@ -24,30 +28,6 @@ echo "[info] Starting MineOS-node..."
 cd /opt/mineos && /home/nobody/.nvm/versions/node/v8.17.0/bin/node ./service.js start
 echo "[info] MineOS-node started"
 
-# if chmod exclusions defined then process
-if [[ ! -z "${CHMOD_EXCLUDE_PATHS}" ]]; then
-
-	# split comma separated string into array from CHMOD_EXCLUDE_PATHS env variable
-	IFS=',' read -ra chmod_exclude_paths_array <<< "${CHMOD_EXCLUDE_PATHS}"
-
-	# process chmod exclude paths in the array
-	for chmod_exclude_paths_item in "${chmod_exclude_paths_array[@]}"; do
-		chmod_exclude_paths+="-o -path ${chmod_exclude_paths_item} -prune "
-	done
-
-	# strip '-o ' option for first exclude, as this is a binary or
-	chmod_exclude_paths="${chmod_exclude_paths:3}"
-
-	# construct full command line for find
-	chmod_cli="find /config ${chmod_exclude_paths} -o -exec chmod 777 {} +"
-
-	# run recursive chmod with exclusions, this is required as mineos-node runs as user 'root' group 'root'
-	echo "[info] Running chmod for /config with exclusions..."
-	eval "${chmod_cli}"
-
-else
-
-	echo "[info] Running chmod for /config (no exclusions)..."
-	chmod -R 777 /config
-
-fi
+# set file and folder permissions so that 'other' users have read and write access to /config (recursively).
+# required as this container must run as user 'root' group 'root'
+chmod -R 777 /config && cat
