@@ -23,7 +23,6 @@ docker run -d \
     -p <host port range for minecraft servers>:25565-25570 \
     -v <host path for config files>:/config \
     -v /etc/localtime:/etc/localtime:ro \
-    -e CHMOD_EXCLUDE_PATHS=<paths NOT to apply chmod to on startup> \
     -e WEBUI_PASSWORD=<password used to authenticate with web ui> \
     -e UMASK=<umask for created files> \
     -e PUID=<uid for root> \
@@ -48,7 +47,6 @@ docker run -d \
     -p 25565-25570:25565-25570 \
     -v /apps/docker/mineos-node:/config \
     -v /etc/localtime:/etc/localtime:ro \
-    -e CHMOD_EXCLUDE_PATHS=/config/exclude1,/config/exclude2 \
     -e WEBUI_PASSWORD=mineos \
     -e UMASK=000 \
     -e PUID=0 \
