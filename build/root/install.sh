@@ -31,11 +31,22 @@ else
 	OS_ARCH="x86-64"
 fi
 
+# custom
+####
+
+package_name="jre8-openjdk-headless.tar.zst"
+
+# download compiled package
+rcurl.sh -o "/tmp/${package_name}" "https://github.com/binhex/arch-packages/raw/master/compiled/${OS_ARCH}/${package_name}"
+
+# install package
+pacman -U "/tmp/${package_name}" --noconfirm
+
 # pacman packages
 ####
 
 # define pacman packages
-pacman_packages="git rdiff-backup screen rsync npm node-gyp base-devel jre8-openjdk-headless"
+pacman_packages="git rdiff-backup screen rsync npm node-gyp base-devel"
 
 # install compiled packages using pacman
 if [[ ! -z "${pacman_packages}" ]]; then
