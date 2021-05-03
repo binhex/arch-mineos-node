@@ -37,7 +37,7 @@ fi
 package_name="jre8-openjdk-headless.tar.zst"
 
 # download compiled package
-rcurl.sh -o "/tmp/${package_name}" "https://github.com/binhex/arch-packages/raw/master/compiled/${OS_ARCH}/${package_name}"
+rcurl.sh -o "/tmp/${package_name}" "https://github.com/binhex/packages/raw/master/compiled/${OS_ARCH}/${package_name}"
 
 # install package
 pacman -U "/tmp/${package_name}" --noconfirm
