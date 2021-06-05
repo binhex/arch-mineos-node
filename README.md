@@ -20,7 +20,7 @@ docker run -d \
     --net="bridge" \
     --name=<container name> \
     -p <host port for mineos web ui>:8443/tcp \
-    -p <host port range for minecraft servers>:25565-25570 \
+    -p <host port range for minecraft servers>:25565-25575 \
     -v <host path for config files>:/config \
     -v /etc/localtime:/etc/localtime:ro \
     -e WEBUI_PASSWORD=<password used to authenticate with web ui> \
@@ -44,7 +44,7 @@ docker run -d \
     --net="bridge" \
     --name=mineos-node \
     -p 8443:8443/tcp \
-    -p 25565-25570:25565-25570 \
+    -p 25565-25575:25565-25575 \
     -v /apps/docker/mineos-node:/config \
     -v /etc/localtime:/etc/localtime:ro \
     -e WEBUI_PASSWORD=mineos \
