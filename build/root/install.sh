@@ -35,7 +35,7 @@ fi
 ####
 
 # define pacman packages
-pacman_packages="git rdiff-backup screen rsync npm node-gyp base-devel jre8-openjdk-headless"
+pacman_packages="git rdiff-backup screen rsync npm node-gyp base-devel jre8-openjdk-headless jre11-openjdk-headless"
 
 # install compiled packages using pacman
 if [[ ! -z "${pacman_packages}" ]]; then
@@ -46,7 +46,7 @@ fi
 ####
 
 # define aur packages
-aur_packages="nvm"
+aur_packages="nvm java-openjdk-bin"
 
 # call aur install script (arch user repo)
 source aur.sh
