@@ -150,6 +150,30 @@ fi
 
 # set password for user 'nobody' - used to access the mineos web ui
 echo -e "${WEBUI_PASSWORD}\n${WEBUI_PASSWORD}" | passwd nobody 1>&- 2>&-
+
+export JAVA_VERSION=$(echo "${JAVA_VERSION}" | sed -e 's~^[ \t]*~~;s~[ \t]*$~~')
+if [[ ! -z "${JAVA_VERSION}" ]]; then
+	echo "[info] JAVA_VERSION defined as '${JAVA_VERSION}'" | ts '%Y-%m-%d %H:%M:%.S'
+else
+	echo "[info] JAVA_VERSION not defined,(via -e JAVA_VERSION), defaulting to '8'" | ts '%Y-%m-%d %H:%M:%.S'
+	export JAVA_VERSION="8"
+fi
+
+if [[ "${JAVA_VERSION}" == "8" ]]; then
+	ln -fs /usr/lib/jvm/java-8-openjdk/jre/bin/java /usr/bin/java
+	archlinux-java set java-8-openjdk/jre
+elif [[ "${JAVA_VERSION}" == "11" ]]; then
+	ln -fs /usr/lib/jvm/java-11-openjdk/bin/java /usr/bin/java
+	archlinux-java set java-11-openjdk
+elif [[ "${JAVA_VERSION}" == "16" ]]; then
+	ln -fs /usr/lib/jvm/java-16-openjdk/bin/java /usr/bin/java
+	archlinux-java set java-16-openjdk
+else
+	echo "[warn] Java version '${JAVA_VERSION}' not installed, defaulting to Java version 8" | ts '%Y-%m-%d %H:%M:%.S'
+	ln -fs /usr/lib/jvm/java-8-openjdk/jre/bin/java /usr/bin/java
+	archlinux-java set java-8-openjdk/jre
+fi
+
 EOF
 
 # replace env vars placeholder string with contents of file (here doc)
