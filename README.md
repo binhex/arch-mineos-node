@@ -24,7 +24,7 @@ docker run -d \
     -v <host path for config files>:/config \
     -v /etc/localtime:/etc/localtime:ro \
     -e WEBUI_PASSWORD=<password used to authenticate with web ui> \
-    -e JAVA_VERSION=<8|11|16> \
+    -e JAVA_VERSION=<8|11|latest> \
     -e UMASK=<umask for created files> \
     -e PUID=<uid for root> \
     -e PGID=<gid for root> \
@@ -49,7 +49,7 @@ docker run -d \
     -v /apps/docker/mineos-node:/config \
     -v /etc/localtime:/etc/localtime:ro \
     -e WEBUI_PASSWORD=mineos \
-    -e JAVA_VERSION=11 \
+    -e JAVA_VERSION=latest \
     -e UMASK=000 \
     -e PUID=0 \
     -e PGID=0 \

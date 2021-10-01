@@ -35,7 +35,7 @@ fi
 ####
 
 # define pacman packages
-pacman_packages="git rdiff-backup screen rsync npm node-gyp base-devel jre8-openjdk-headless jre11-openjdk-headless"
+pacman_packages="git rdiff-backup screen rsync npm node-gyp base-devel jre8-openjdk-headless jre11-openjdk-headless jre-openjdk-headless"
 
 # install compiled packages using pacman
 if [[ ! -z "${pacman_packages}" ]]; then
@@ -46,7 +46,7 @@ fi
 ####
 
 # define aur packages
-aur_packages="nvm java-openjdk-bin"
+aur_packages="nvm"
 
 # call aur install script (arch user repo)
 source aur.sh
@@ -83,7 +83,7 @@ cp '/opt/mineos/mineos.conf' '/etc/mineos.conf-backup'
 # /config/mineos/config/mineos.conf to /etc/mineos.conf
 chmod 777 /etc
 
-# define comma separated list of paths 
+# define comma separated list of paths
 install_paths="/opt/mineos,/etc/ssl/certs,/home/nobody"
 
 # split comma separated string into list for install paths
@@ -113,7 +113,7 @@ cat <<EOF > /tmp/permissions_heredoc
 previous_puid=\$(cat "/root/puid" 2>/dev/null || true)
 previous_pgid=\$(cat "/root/pgid" 2>/dev/null || true)
 
-# if first run (no puid or pgid files in /tmp) or the PUID or PGID env vars are different 
+# if first run (no puid or pgid files in /tmp) or the PUID or PGID env vars are different
 # from the previous run then re-apply chown with current PUID and PGID values.
 if [[ ! -f "/root/puid" || ! -f "/root/pgid" || "\${previous_puid}" != "\${PUID}" || "\${previous_pgid}" != "\${PGID}" ]]; then
 
@@ -151,27 +151,30 @@ fi
 # set password for user 'nobody' - used to access the mineos web ui
 echo -e "${WEBUI_PASSWORD}\n${WEBUI_PASSWORD}" | passwd nobody 1>&- 2>&-
 
+# get latest java version for package 'jre-openjdk-headless'
+latest_java_version=$(pacman -Qi jre-openjdk-headless | grep -P -o -m 1 '^Version\s*: \K.+' | grep -P -o -m 1 '^[0-9]+')
+
 export JAVA_VERSION=$(echo "${JAVA_VERSION}" | sed -e 's~^[ \t]*~~;s~[ \t]*$~~')
 if [[ ! -z "${JAVA_VERSION}" ]]; then
 	echo "[info] JAVA_VERSION defined as '${JAVA_VERSION}'" | ts '%Y-%m-%d %H:%M:%.S'
 else
-	echo "[info] JAVA_VERSION not defined,(via -e JAVA_VERSION), defaulting to '8'" | ts '%Y-%m-%d %H:%M:%.S'
-	export JAVA_VERSION="8"
+	echo "[info] JAVA_VERSION not defined,(via -e JAVA_VERSION), defaulting to Java version 'latest'" | ts '%Y-%m-%d %H:%M:%.S'
+	export JAVA_VERSION="latest"
 fi
 
 if [[ "${JAVA_VERSION}" == "8" ]]; then
-	ln -fs /usr/lib/jvm/java-8-openjdk/jre/bin/java /usr/bin/java
+	ln -fs '/usr/lib/jvm/java-8-openjdk/jre/bin/java' '/usr/bin/java'
 	archlinux-java set java-8-openjdk/jre
 elif [[ "${JAVA_VERSION}" == "11" ]]; then
-	ln -fs /usr/lib/jvm/java-11-openjdk/bin/java /usr/bin/java
+	ln -fs '/usr/lib/jvm/java-11-openjdk/bin/java' '/usr/bin/java'
 	archlinux-java set java-11-openjdk
-elif [[ "${JAVA_VERSION}" == "16" ]]; then
-	ln -fs /usr/lib/jvm/java-16-openjdk/bin/java /usr/bin/java
-	archlinux-java set java-16-openjdk
+elif [[ "${JAVA_VERSION}" == "latest" ]]; then
+	ln -fs "/usr/lib/jvm/java-${latest_java_version}-openjdk/bin/java" '/usr/bin/java'
+	archlinux-java set java-${latest_java_version}-openjdk
 else
-	echo "[warn] Java version '${JAVA_VERSION}' not installed, defaulting to Java version 8" | ts '%Y-%m-%d %H:%M:%.S'
-	ln -fs /usr/lib/jvm/java-8-openjdk/jre/bin/java /usr/bin/java
-	archlinux-java set java-8-openjdk/jre
+	echo "[warn] Java version '${JAVA_VERSION}' not valid, defaulting to Java version 'latest" | ts '%Y-%m-%d %H:%M:%.S'
+	ln -fs "/usr/lib/jvm/java-${latest_java_version}-openjdk/bin/java" '/usr/bin/java'
+	archlinux-java set java-${latest_java_version}-openjdk
 fi
 
 EOF
