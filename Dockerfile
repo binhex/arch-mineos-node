@@ -24,9 +24,6 @@ RUN chmod +x /root/*.sh && \
 # docker settings
 #################
 
-# map /config to host defined config path (used to store configuration from app)
-VOLUME /config
-
 # expose 8443 for web ui and range 25565-25575 for minecraft servers
 EXPOSE 8443 25565-25575
 
