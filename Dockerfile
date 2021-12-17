@@ -30,6 +30,9 @@ RUN chmod +x /root/*.sh && \
 # expose 8443 for web ui and range 25565-25575 for minecraft servers
 EXPOSE 8443 25565-25575
 
+# Security Patch for CVE-2021-44228
+ENV LOG4J_FORMAT_MSG_NO_LOOKUPS=true
+
 # set permissions
 #################
 
