@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/dumb-init /bin/bash
 
 # set file access control list so subsequent created directories allow read and write by 'other' users
 # required as this container must run as user 'root' group 'root'
